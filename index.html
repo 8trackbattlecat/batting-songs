@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<!--  html manifest="appcache.manifest" Do not uncomment this until you are sure that your webserver wont put cache headers on .manifest files -->
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>Batting Songs</title>
+	<script src="js/ac.js"></script>
+	<style>
+	body{margin-bottom:4em;font-family:"Trebuchet MS", Helvetica, sans-serif;}
+	#controls{padding:5px;}
+	.hide{display:none;}
+	.block{border:solid 1px #ccc;padding:5px;}
+	.block li:hover{background-color:yellow;cursor:pointer;}
+	button{font-size:1.2em;}
+	.curBatter{background:yellow;}
+	.nextBatter{background:rgb(175, 229, 247);}
+	li{font-size:1em;}
+	.fw{width:100%;}
+	</style>
+
+
+</head>
+<body>
+<!-- VIEW TEMPLATES -->
+<script id="selectButtons" type="dot-template">
+<div>
+<button onclick="get('{{=it.sex}}s').value='';">Clear {{=it.sex}}s</button>
+{{~it.people:p:i}}<button onclick="addToList('{{=it.sex}}','{{=p}}');">{{=p}}</button>{{~}}
+</div>
+</script>
+
+<script id="teamTmpl" type="dot-template">
+<p>click a player to se them as next-up</p>
+<div class=block>
+<h3>{{=it.name}} Dudes</h3>
+<ol id="dudesList" onclick="setCurDude(idx(this,event.target));">
+{{~it.dudes:dude:i}}
+<li class="curBatter">{{=dude.name}}</li>
+{{~}}
+</ol>
+</div>
+<div class=block>
+
+<h3>{{=it.name}} Gals</h3>
+<ol id="galsList" onclick="setCurGal(idx(this,event.target));">
+{{~it.gals:gal:i}}
+<li class="nextBatter">{{=gal.name}}</li>
+{{~}}
+</ol>
+</div>
+</script>
+
+
+<script id="battingTmpl2" type="dot-template">
+<div class=block>
+<h3>At Bat: {{=it.up}}</h3>
+<h2>On Deck: {{=it.onDeck}}</h2>
+<h2>In Hole: {{=it.inHole}}</h2>
+</div>
+</script>
+<!-- END VIEW TEMPLATES -->
+
+
+<h3 id="teamName">Batting Songs</h3>
+
+<button id="showSetup" class="" onclick="show('m');hide('showSetup');">Show Setup</button>
+<div id="m" class="hide">
+	<h3>Setup</h3>
+	<button onclick="hide('m');show('showSetup');">Hide Setup</button>
+    <div id="dude"></div><label for="dudes">Dudes (csv NO SPACES between players):</label><input class="fw" type="text" id="dudes" value=""></input>
+	<div id="gal"></div>
+	 <label for="gals">Gals (csv):</label><input class="fw" type="text" id="gals" value=""></input>
+
+  
+
+<button onclick="saveTeam();loadTeam();">Update Order</button>
+	</div>
+<hr>
+<div id="main"></div>
+<div id="voices" class=""></div>
+	<button id="voiceInit" onclick="show('mainControls');initVoices();hide('voiceInit');show('voices');">start voices</button>
+
+	<br>
+<div id="mainControls" class="hide">
+	<div id="audio"></div>
+	<button onclick="nextBatter();" class="hiLiteBtn" >next</button>
+	<button onclick="curSong.fadeOut(0,1000);">fadeOut</button><br>
+	<button onclick="curSong.pause();" class="hiLiteBtn">pause</button>
+	<button onclick="curSong.play();">resume</button>
+	<button onclick="curSong.stop();curSong.play();">restart song</button>
+	<br><br>
+	<button onclick="voiceSay('nice play');">nice play</button>
+	<button onclick="voiceSay('good   eye!');">good eye</button>
+	<br>
+
+	<input id="saymsg" type="text" placeholder="something to say"></input><button onclick="voiceSay(get('saymsg').value);")>Say it</button>
+
+
+	<div id="controls" >
+
+		<button onclick="playWATC();">we are the champions</button><br>
+		 <h2>Now Playing:<span id="nowPlaying"></span></h2></div>
+</div>
+<div id="curBattingTrack">results go here</div>
+
+<script  src="js/doT.js"></script>
+<script src="js/howler.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/teamConfig.js"></script>
+<script src="js/baseball.js"></script>
+
+<script>
+console.log("hmmm");
+
+
+
+	loadTeam();
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
