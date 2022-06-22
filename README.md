@@ -7,20 +7,24 @@ You could premake a super long playlist with songs repeated in interleaving orde
 ---
 Batting-Songs uses:
 * [Web Speech Speech Synthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)
-* [howler.js](https://howlerjs.com/)
-* [doT.js](http://olado.github.io/doT/index.html)
-* [cache.manifest](https://developer.apple.com/library/content/documentation/iPhone/Conceptual/SafariJSDatabaseGuide/OfflineApplicationCache/OfflineApplicationCache.html)
+* * [doT.js](http://olado.github.io/doT/index.html)
+*  Service Worker - for offline caching..  also this means whenever you make a change (like add a new song and rebuild) you need to reload at least 2 times.
 
-I might have been a little drunk when I put this code together.
+
+This was put together hastily for a beer league softball team.  It has evolved over the years a bit from appcache to service worker.  Still has the sort of weird pattern where there are a couple of hashmaps that use the player name to store data. If you want to edit the service worker or the index.html be sure to change the template versions: index.tmpl.html and service-worker.tmpl.js. the other files get overwritten by the build.
+
 
 ## Setup
 
-Put music files in /battingmusic
+Put music files in /songs
+run 
+node makeSw.js to build the service worker with the song list.
 
-Add your player names and their song file names to the music object in teamConfig.js.  You can also set a time to start their song in the musicStartsAt object, and set if you want the music to be delayed until the robot announcer finishes with the delaySong object.
+Updates
+* Service Worker
+* As of 6/21/2022 there is an interface for adding players and configuring the start time of their song, and if we should wait for the announcer to finsh before the music starts.
+* Once you have setup your team you can export it (go to "Show Setup > Export Setup".  To import somewhere else do "Show Setup > Config Players >Import >(paste into text box) >"Do Import"  
 
-To cache the songs on your device you will need to setup a local webserver and serve from there.  Using the cache.manifest can be a pain, and you want to be sure that the server is not sending cache headers with the .html files or .manifest file.  You may get in a  situation where the files are cached and will not update, in which case you need to clear your browser history/cache for whatever domain you are serving from.  It is probably easiest to remove weird characters and spaces from filenames.  You may also need to configure the server to serve .manifest files.
-
-It is also helpful to be able to see the console output of the mobile browser when you are getting this setup.  As of writing iOS has a tendency to reject the cache manifest if you have too many songs, however you can frequently get around this by removing half the songs form the cache manifest, letting it cache successfully, and then adding the rest...
+To cache the songs on your device you will need to setup a local webserver and serve from there. I use IIS, maybe will switch to node for this sometime soon.
 
 Once you have it cached successfully, add the webpage as a homescreen app and verify that it works in airplane mode.  Finally, grab a boombox and an audio cable and get out there and sock some dingers.
