@@ -7,7 +7,7 @@ You could premake a super long playlist with songs repeated in interleaving orde
 ---
 Batting-Songs uses:
 * [Web Speech Speech Synthesis](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis)
-* * [doT.js](http://olado.github.io/doT/index.html)
+* [doT.js](http://olado.github.io/doT/index.html)
 *  Service Worker - for offline caching..  also this means whenever you make a change (like add a new song and rebuild) you need to reload at least 2 times.
 
 
