@@ -16,9 +16,9 @@ This was put together hastily for a beer league softball team.  It has evolved o
 
 ## Setup
 
-Put music files in /songs
-run 
-node makeSw.js to build the service worker with the song list.
+1. Put music files in /songs
+2. run node makeSw.js to build the service worker with the song list
+3. Access the page from your device
 
 Updates
 * Service Worker
